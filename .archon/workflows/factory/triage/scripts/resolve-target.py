@@ -19,6 +19,13 @@ import json
 import os
 import re
 import sys
+
+for _s in (sys.stdout, sys.stderr):
+    try:
+        _s.reconfigure(encoding="utf-8")  # type: ignore[union-attr]
+    except (AttributeError, ValueError):
+        pass
+
 from pathlib import Path
 
 # nodeio FIRST: importing it redirects stdout to stderr for the whole process, so a

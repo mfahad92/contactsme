@@ -37,6 +37,13 @@ from __future__ import annotations
 
 import os
 import sys
+
+for _s in (sys.stdout, sys.stderr):
+    try:
+        _s.reconfigure(encoding="utf-8")  # type: ignore[union-attr]
+    except (AttributeError, ValueError):
+        pass
+
 from pathlib import Path
 
 # nodeio FIRST. Its value here is not the stdout redirect (this node's value IS a
