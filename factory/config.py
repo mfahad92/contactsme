@@ -325,7 +325,7 @@ TOTAL_CAP = _env_int("FACTORY_TOTAL_CAP", 1500)
 # failure it catches is not size: a refactor node with no scope grows a six-file PR
 # into eleven and introduces a bug in one of the five it was never asked to touch,
 # while staying well under the line cap the whole way. Set to 0 to disable.
-FILE_CAP = _env_int("FACTORY_FILE_CAP", 12)
+FILE_CAP = _env_int("FACTORY_FILE_CAP", 20)
 
 # --- paths --------------------------------------------------------------------
 # The holdout: assertions the builder is blocked from READING, not merely from

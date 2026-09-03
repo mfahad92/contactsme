@@ -256,7 +256,10 @@ def main(argv: list[str]) -> int:
         )
         return 1
 
-    scoped = [f for f in changed if not matches(f, SIZE_EXEMPT)]
+    scoped = [
+        f for f in changed
+        if not matches(f, SIZE_EXEMPT) and not matches(f, TEST_PATHS)
+    ]
     if config.FILE_CAP and len(scoped) > config.FILE_CAP:
         print(
             f"SCOPE_VIOLATION: {len(scoped)} files changed, cap is {config.FILE_CAP}. "

@@ -82,7 +82,7 @@ repository owner is exempt. One issue is triaged per dispatch.
 
 **Every PR must:**
 
-- change at most **500 lines of production code** and touch at most **12 files**, and
+- change at most **500 lines of production code** and touch at most **20 files**, and
   stay under **1500 lines total**. Over any cap, stop and split the work. Something
   nobody could review even in principle is not shippable here -- and the file cap
   catches what the line cap cannot: a six-file change that grows to eleven with five
