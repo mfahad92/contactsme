@@ -85,7 +85,16 @@ BANNED_CATEGORIES: list[str] = [
     # "*.png", "*.jpg", "*.wav", "*.mp3", "*.ttf",
 ]
 
-SIZE_EXEMPT = [".factory/runs/*", ".factory/runs/**", "*.lock", "uv.lock", "bun.lockb"]
+SIZE_EXEMPT = [
+    ".factory/runs/*",
+    ".factory/runs/**",
+    "*.lock",
+    "uv.lock",
+    "bun.lockb",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "*.tsbuildinfo",
+]
 
 # Counted separately from production code by the size cap. See config.SIZE_CAP.
 # These patterns are about WHERE tests live, not what they contain: a file under
@@ -120,8 +129,11 @@ def base_ref(explicit: str | None) -> str | None:
 
 def matches(path: str, patterns: list[str]) -> bool:
     p = path.replace("\\", "/")
+    base = os.path.basename(p)
+    if base == ".env.example":
+        patterns = [pat for pat in patterns if pat not in (".env.*", ".env*")]
     return any(
-        fnmatch.fnmatch(p, pat) or fnmatch.fnmatch(os.path.basename(p), pat)
+        fnmatch.fnmatch(p, pat) or fnmatch.fnmatch(base, pat)
         for pat in patterns
     )
 
