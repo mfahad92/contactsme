@@ -120,7 +120,11 @@ def main() -> int:
         return 0
 
     spec = json.loads(DEFECTS.read_text(encoding="utf-8"))
-    defects = spec["defects"]
+    defects = spec.get("defects", [])
+    if not defects:
+        print("MUTATIONS_ABSENT no defects configured in defects.json", flush=True)
+        return 0
+
     copy_items = spec.get("copy") or DEFAULT_COPY
     total = caught = not_injected = 0
 
