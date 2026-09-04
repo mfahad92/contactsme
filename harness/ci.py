@@ -193,6 +193,22 @@ def main() -> int:
         flush=True,
     )
 
+    # --- 0. bootstrap dependencies in fresh worktrees ------------------------
+    pkg_json = ROOT / "package.json"
+    if pkg_json.exists() and not (ROOT / "node_modules").is_dir():
+        print("BOOTSTRAP_START installing dependencies in worktree...", flush=True)
+        npm_bin = shutil.which("npm.cmd") or shutil.which("npm") or "npm"
+        rc, out = run("setup", [npm_bin, "install", "--prefer-offline", "--no-audit"])
+        if rc != 0:
+            return fail("setup", f"npm install failed:\n{out}")
+        if (ROOT / "prisma" / "schema.prisma").exists():
+            print("BOOTSTRAP_PRISMA generating prisma client...", flush=True)
+            npx_bin = shutil.which("npx.cmd") or shutil.which("npx") or "npx"
+            rc_p, out_p = run("setup", [npx_bin, "prisma", "generate"])
+            if rc_p != 0:
+                return fail("setup", f"prisma generate failed:\n{out_p}")
+        print("BOOTSTRAP_OK", flush=True)
+
     # --- 1. static -----------------------------------------------------------
     static_cmd = (CONFIG.get("static") or "").strip()
     if not static_cmd:

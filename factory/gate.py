@@ -600,7 +600,8 @@ def main(argv: list[str]) -> int:
         # Keyed by target and written next to the findings, so either path can find it.
         try:
             config.FINDINGS_DIR.mkdir(parents=True, exist_ok=True)
-            (config.FINDINGS_DIR / f"{re.sub(r'[/.:\\]', '-', target)}.counts.json").write_text(
+            target_key = re.sub(r"[/.:\\]", "-", target)
+            (config.FINDINGS_DIR / f"{target_key}.counts.json").write_text(
                 json.dumps(obs, indent=2), encoding="utf-8")
         except OSError as e:  # noqa: BLE001
             print(f"COUNTS_NOT_SAVED {e} - a dispatcher-side merge will not raise the floor")
