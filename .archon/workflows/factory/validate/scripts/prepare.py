@@ -186,7 +186,7 @@ if git("rev-parse", "--verify", "--quiet", checkout)[0] != 0:
 # until two validations of different PRs raced for it; a detached HEAD has no name to
 # contend over at all, and nothing here needs one -- the diff, the gate and the judge
 # all work from HEAD.
-rc, out = git("checkout", "-q", "--detach", checkout)
+rc, out = git("checkout", "-f", "-q", "--detach", checkout)
 if rc != 0:
     die(f"could not check out {checkout}: {out}")
 
