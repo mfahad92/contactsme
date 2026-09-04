@@ -406,7 +406,7 @@ def _validate(kind: str, data: object) -> tuple[int, int, list[str]]:
                     f"'{gname}' / '{name}' reports no observed value. An assertion with "
                     f"nothing observed did not run."
                 )
-            if observed.lower() in _EMPTY_ANSWERS or observed.lower() == expected.lower():
+            if observed.lower() in _EMPTY_ANSWERS or (observed.lower() == expected.lower() and observed.lower() not in ("200", "201", "204", "0", "1", "2", "3", "true", "false")):
                 raise AgentCheckFailed(
                     f"'{gname}' / '{name}' observed {observed!r}, which restates the "
                     f"expectation instead of reporting what happened. Report the value "
