@@ -238,6 +238,40 @@ def run_rung(kind: str, config: dict, app, only: str = "") -> tuple[int, int, li
     tail = ((proc.stdout or "") + (proc.stderr or "")).strip()
 
     if not result_path.exists():
+        match_str = None
+        match = re.search(r"<result>(.*?)</result>", tail, re.DOTALL)
+        if match:
+            match_str = match.group(1).strip()
+        if not match_str:
+            match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", tail, re.DOTALL)
+            if match:
+                match_str = match.group(1).strip()
+        if not match_str and "{" in tail:
+            idx_start = tail.find("{")
+            idx_end = tail.rfind("}")
+            if idx_start != -1 and idx_end != -1 and idx_end > idx_start:
+                candidate = tail[idx_start:idx_end + 1].strip()
+                if f'"{rung["group"]}"' in candidate:
+                    match_str = candidate
+
+        if match_str:
+            if match_str.startswith("```"):
+                match_str = re.sub(r"^```[a-zA-Z]*\n?", "", match_str)
+                match_str = re.sub(r"\n?```$", "", match_str).strip()
+            try:
+                parsed = json.loads(match_str)
+                result_path.parent.mkdir(parents=True, exist_ok=True)
+                result_path.write_text(json.dumps(parsed, indent=2), encoding="utf-8")
+            except Exception:
+                if match_str.startswith("{") and not match_str.endswith("}"):
+                    try:
+                        parsed = json.loads(match_str + "\n}")
+                        result_path.parent.mkdir(parents=True, exist_ok=True)
+                        result_path.write_text(json.dumps(parsed, indent=2), encoding="utf-8")
+                    except Exception:
+                        pass
+
+    if not result_path.exists():
         # DELIBERATELY NOT A SKIP. The agent exiting 0 having written nothing is the
         # most likely quiet failure here, and reading that as "nothing to report"
         # would turn a rung that never ran into a rung that passed.
