@@ -113,7 +113,7 @@ def escalate(target: str, why: str) -> set[str]:
 
 
 RUN_ID_RE = re.compile(
-    r"([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})"
+    r"([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|[0-9a-fA-F]{32})"
 )
 # A run in any of these is over. Anything else -- INCLUDING a status this version of
 # the engine has never been seen to emit -- counts as still running, because the
