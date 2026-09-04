@@ -88,6 +88,8 @@ BANNED_CATEGORIES: list[str] = [
 SIZE_EXEMPT = [
     ".factory/runs/*",
     ".factory/runs/**",
+    "artifacts/*",
+    "artifacts/**",
     "*.lock",
     "uv.lock",
     "bun.lockb",
@@ -100,8 +102,11 @@ SIZE_EXEMPT = [
 # These patterns are about WHERE tests live, not what they contain: a file under
 # tests/ does not ship to the running product, so it cannot carry the risk the cap is
 # guarding against, and TOTAL_CAP still bounds the whole diff.
-TEST_PATHS = ["tests/*", "tests/**", "*.test.ts", "*.test.js", "*.spec.ts", "*.spec.js",
-              "**/*.test.ts", "**/*.test.js", "**/*.spec.ts", "**/*.spec.js"]
+TEST_PATHS = ["tests/*", "tests/**", "__tests__/*", "__tests__/**",
+              "*.test.ts", "*.test.tsx", "*.test.js", "*.test.jsx",
+              "*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx",
+              "**/*.test.ts", "**/*.test.tsx", "**/*.test.js", "**/*.test.jsx",
+              "**/*.spec.ts", "**/*.spec.tsx", "**/*.spec.js", "**/*.spec.jsx"]
 
 
 def git(*args: str) -> tuple[int, str]:

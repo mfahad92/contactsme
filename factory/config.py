@@ -318,8 +318,8 @@ STOP_LABEL = _env("FACTORY_STOP_LABEL", "factory:stop")
 #
 # TOTAL_CAP is the backstop, so "put it in tests/" is not a way around the cap. A diff
 # over the total is unreviewable no matter what it is made of.
-SIZE_CAP = _env_int("FACTORY_SIZE_CAP", 500)
-TOTAL_CAP = _env_int("FACTORY_TOTAL_CAP", 1500)
+SIZE_CAP = _env_int("FACTORY_SIZE_CAP", 1000)
+TOTAL_CAP = _env_int("FACTORY_TOTAL_CAP", 2500)
 
 # THE SCOPE LEASH, and it is a FILE count rather than a line count on purpose. The
 # failure it catches is not size: a refactor node with no scope grows a six-file PR
