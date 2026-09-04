@@ -12,6 +12,9 @@ export default defineConfig({
     include: ['__tests__/**/*.test.ts', '__tests__/**/*.test.tsx'],
     testTimeout: 10000,
     hookTimeout: 10000,
+    env: {
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/contactsme?schema=public",
+    },
   },
   resolve: {
     alias: {

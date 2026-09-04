@@ -11,4 +11,16 @@ export const CreateContactSchema = z.object({
   notes: z.string().optional()
 })
 
+// Partial schema for updates — phone is optional but must match +91 format if provided
+export const UpdateContactSchema = CreateContactSchema.partial().refine(
+  data => {
+    if (data.phone && !/^\+91\d{10}$/.test(data.phone)) {
+      return false
+    }
+    return true
+  },
+  { message: "Must be valid Indian phone number +91XXXXXXXXXX", path: ["phone"] }
+)
+
 export type ContactFormValues = z.infer<typeof CreateContactSchema>
+export type UpdateContactFormValues = z.infer<typeof UpdateContactSchema>
