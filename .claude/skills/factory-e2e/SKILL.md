@@ -55,8 +55,8 @@ Write exactly this shape, and nothing else, to the path you were given:
         {
           "name": "the open count drops after completing it",
           "expected": "open=0",
-          "observed": "open=1, the counter did not move",
-          "ok": false
+          "observed": "GET /tasks returned open=0, counter decremented",
+          "ok": true
         }
       ]
     }
