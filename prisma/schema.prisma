@@ -1,0 +1,38 @@
+// Prisma schema for ContactsMe
+// Target: PostgreSQL via Prisma ORM
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Contact {
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
+  firstName String    @map("first_name")
+  lastName  String    @map("last_name")
+  phone     String    // Indian phone number: +91XXXXXXXXXX (validated by Zod)
+  email     String?   @map("email")
+  notes     String?   @map("notes")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt    @map("updated_at")
+
+  tags Tag[]
+
+  @@index([phone])
+  @@index([createdAt])
+  @@map("contacts")
+}
+
+model Tag {
+  id   String @id @default(dbgenerated("gen_random_uuid()"))
+  name String @unique
+
+  contacts Contact[]
+
+  @@map("tags")
+}
