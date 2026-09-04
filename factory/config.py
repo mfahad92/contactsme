@@ -365,7 +365,7 @@ HEALTH_MARKERS = _env("FACTORY_HEALTH_MARKERS", "").split()
 # --- the trigger --------------------------------------------------------------
 # Slower than feels right: a fast loop multiplies the cost of a mistake before you
 # have noticed the mistake.
-INTERVAL_MINUTES = _env_int("FACTORY_INTERVAL_MINUTES", 30)
+INTERVAL_MINUTES = _env_int("FACTORY_INTERVAL_MINUTES", 5)
 def _base_branch() -> str:
     """The branch everything merges into, DETECTED rather than assumed.
 
