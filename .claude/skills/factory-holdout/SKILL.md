@@ -16,6 +16,14 @@ builder node is denied, so passing them means something the journeys cannot mean
 **This skill is public. The scenarios are not.** Knowing that the holdout composes
 features and uses unguessable values does not help anybody pass it.
 
+## What you do
+
+1. **Read the scenarios.** Run every one of them in order.
+2. **Do each step for real RIGHT NOW.** Send the request, run the command, probe the endpoint. Never predict what the app would return. Do NOT ask questions or ask for permission: execute the checks immediately using your tools (e.g. curl, python urllib/requests, or node fetch).
+3. **Record each check as one assertion**, with the value you actually saw.
+4. **Keep going after a failure.** A run that stops at the first problem reports one defect where there were four. Finish the scenario if the next step is still meaningful, then move to the next scenario.
+5. **Write the result file** to the exact path specified in the prompt and stop.
+
 ## What is different from factory-e2e
 
 1. **Scenarios compose.** Each one strings several features together in a

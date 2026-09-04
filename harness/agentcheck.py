@@ -152,6 +152,10 @@ def build_prompt(kind: str, config: dict, app, only: str = "") -> tuple[str, Pat
 
     prompt = f"""You are running the {kind} rung of a software factory's validation gate.
 
+CRITICAL: Execute all checks immediately RIGHT NOW using your tools (e.g. bash, curl, python, node).
+Do NOT ask questions, do NOT ask for confirmation, and do NOT wait for user response.
+Run each of the {rung['noun']}s against the running application, observe what actually happens, write the JSON result to the exact path below, and stop.
+
 Follow these instructions exactly.
 {skill}
 

@@ -26,3 +26,9 @@
 
 <!-- Never delete one. A decision with its date is why the code looks the way it
      does, and it is the first thing anybody re-litigating it needs to read. -->
+
+- **PRISMA_SINGLETON_PATTERN**: singleton (Standard Next.js pattern for Prisma client to prevent connection exhaustion during hot reloads) - 2026-09-04
+- **HEALTH_ENDPOINT_RESPONSE**: `{ "status": "ok" }` (Standard health check format for `/api/health`) - 2026-09-04
+- **TEST_FRAMEWORK**: vitest (Configured in `vitest.config.ts`) - 2026-09-04
+- **VALIDATION_SCHEMA**: zod (Strict schema validation as specified in `AGENTS.md`) - 2026-09-04
+- **PRISMA_CLIENT_OUTPUT**: `../node_modules/.prisma/client` - 2026-09-04
