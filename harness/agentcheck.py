@@ -444,10 +444,11 @@ def _validate(kind: str, data: object) -> tuple[int, int, list[str]]:
                     f"'{gname}' / '{name}' reports no observed value. An assertion with "
                     f"nothing observed did not run."
                 )
-            if observed.lower() in _EMPTY_ANSWERS:
+            if observed.lower() in _EMPTY_ANSWERS or (observed.lower() == expected.lower() and not (observed.isdigit() or observed.startswith("{") or observed.startswith("["))):
                 raise AgentCheckFailed(
-                    f"'{gname}' / '{name}' observed {observed!r}, which is an empty placeholder instead "
-                    f"of reporting what actually happened. Report the value the app actually produced."
+                    f"'{gname}' / '{name}' observed {observed!r}, which restates the "
+                    f"expectation instead of reporting what happened. Report the value "
+                    f"the app actually produced."
                 )
             assertions += 1
             if not a.get("ok"):

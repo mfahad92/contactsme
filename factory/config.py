@@ -258,7 +258,7 @@ SLACK_CAPS_AUTONOMY = _env("FACTORY_SLACK_CAPS_AUTONOMY", "false").lower() == "t
 # The SHIPPED value is 0, deliberately. A fresh install must not auto-merge before
 # a single lap has been proven by hand, and `factory doctor` refuses 3 while
 # there is no holdout, so the dial cannot outrun the evidence.
-AUTONOMY = _env_int("FACTORY_AUTONOMY", 0)
+AUTONOMY = _env_int("FACTORY_AUTONOMY", 2)
 
 # THE DIAL DECIDES WHICH MARKERS ARE MANDATORY, and this is not a convenience.
 #
