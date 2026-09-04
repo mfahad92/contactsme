@@ -24,12 +24,29 @@ interface Contact {
   tags: Tag[];
 }
 
+const FAVORITE_STORAGE_KEY = "contactsme_favorites";
+
+function loadFavoritesFromStorage(): Set<string> {
+  if (typeof window === "undefined") return new Set();
+  try {
+    const stored = localStorage.getItem(FAVORITE_STORAGE_KEY);
+    return stored ? new Set(JSON.parse(stored)) : new Set();
+  } catch {
+    return new Set();
+  }
+}
+
+function saveFavoritesToStorage(favs: Set<string>) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(FAVORITE_STORAGE_KEY, JSON.stringify([...favs]));
+}
+
 export default function Home() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
-  const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
+  const [favoriteIds, setFavoriteIds] = useState<Set<string>>(loadFavoritesFromStorage);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -108,6 +125,7 @@ export default function Home() {
       } else {
         newSet.add(contactId);
       }
+      saveFavoritesToStorage(newSet);
       return newSet;
     });
   }, []);

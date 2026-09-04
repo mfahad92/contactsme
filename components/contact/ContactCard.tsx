@@ -40,6 +40,7 @@ export default function ContactCard({
 }: ContactCardProps) {
   // Favorite state is controlled by parent; backend persistence required
   // for pinned status to survive page reloads.
+  const [showCopyToast, setShowCopyToast] = useState(false);
   const initials = `${contact.firstName.charAt(0)}${contact.lastName.charAt(0)}`.toUpperCase();
   const avatarColor = getAvatarColor(initials);
 
@@ -51,11 +52,12 @@ export default function ContactCard({
   const handleCopyPhone = (e: React.MouseEvent) => {
     e.stopPropagation();
     navigator.clipboard.writeText(contact.phone);
-    alert("Phone number copied!");
+    setShowCopyToast(true);
+    setTimeout(() => setShowCopyToast(false), 2000);
   };
 
   const handleCardClick = () => {
-    alert("Navigate to contact detail (placeholder)");
+    // Contact detail page (out of scope for this PR)
   };
 
   return (
@@ -149,6 +151,17 @@ export default function ContactCard({
           </svg>
         </button>
       </div>
+
+      {/* Copy feedback toast */}
+      {showCopyToast && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="absolute top-2 right-2 bg-gray-800 text-white text-xs px-2 py-1 rounded shadow"
+        >
+          Copied!
+        </div>
+      )}
     </div>
   );
 }

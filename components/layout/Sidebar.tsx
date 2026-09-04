@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -23,10 +24,12 @@ export default function Sidebar({
   onClearFilters,
 }: SidebarProps) {
   const router = useRouter();
+  const [showAddContactToast, setShowAddContactToast] = useState(false);
 
   const handleAddContact = () => {
-    // Placeholder for Add Contact navigation (out of scope)
-    alert("Add Contact feature is not implemented in this scope");
+    // Add Contact form page (out of scope for this PR) — show non-blocking toast
+    setShowAddContactToast(true);
+    setTimeout(() => setShowAddContactToast(false), 3000);
   };
 
   return (
@@ -139,11 +142,21 @@ export default function Sidebar({
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                d="M12 6v6m0 0v6m0-6h6m0-6H6"
               />
             </svg>
           </button>
         </div>
+
+        {/* Add Contact feedback toast */}
+        {showAddContactToast && (
+          <div
+            role="status"
+            className="fixed bottom-4 left-4 bg-gray-800 text-white text-sm px-4 py-2 rounded-md shadow-lg z-50"
+          >
+            Add Contact form is not yet available.
+          </div>
+        )}
       </div>
     </aside>
   );
