@@ -1,9 +1,10 @@
 interface EmptyStateProps {
   type: "no-contacts" | "no-results";
   query?: string;
+  onClear?: () => void;
 }
 
-export default function EmptyState({ type, query }: EmptyStateProps) {
+export default function EmptyState({ type, query, onClear }: EmptyStateProps) {
   return (
     <div className="text-center py-12">
       <div className="mb-6">
@@ -43,10 +44,7 @@ export default function EmptyState({ type, query }: EmptyStateProps) {
       </p>
       {type === "no-results" && (
         <button
-          onClick={() => {
-            // This would clear search and filters in a real implementation
-            alert("Clear search and filters functionality would go here");
-          }}
+          onClick={() => onClear?.()}
           className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
         >
           Clear Search & Filters

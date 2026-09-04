@@ -20,6 +20,7 @@ interface Contact {
 interface ContactCardProps {
   contact: Contact;
   onToggleFavorite: (contactId: string) => void;
+  isFavorite?: boolean;
 }
 
 function getAvatarColor(initials: string): string {
@@ -35,15 +36,15 @@ function getAvatarColor(initials: string): string {
 export default function ContactCard({
   contact,
   onToggleFavorite,
+  isFavorite = false,
 }: ContactCardProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
-
+  // Favorite state is controlled by parent; backend persistence required
+  // for pinned status to survive page reloads.
   const initials = `${contact.firstName.charAt(0)}${contact.lastName.charAt(0)}`.toUpperCase();
   const avatarColor = getAvatarColor(initials);
 
   const handleToggleFavorite = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsFavorite(!isFavorite);
     onToggleFavorite(contact.id);
   };
 

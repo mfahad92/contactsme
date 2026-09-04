@@ -123,6 +123,7 @@ export default function Home() {
   const handleClearFilters = useCallback(() => {
     setActiveTag(null);
     setShowFavoritesOnly(false);
+    setSearchQuery("");
   }, []);
 
   return (
@@ -182,7 +183,7 @@ export default function Home() {
           )}
 
           {!isLoading && !error && contacts.length > 0 && filteredContacts.length === 0 && (
-            <EmptyState type="no-results" query={searchQuery} />
+            <EmptyState type="no-results" query={searchQuery} onClear={handleClearFilters} />
           )}
 
           {/* Contact list */}
