@@ -216,7 +216,7 @@ def run_rung(kind: str, config: dict, app, only: str = "") -> tuple[int, int, li
     print(f"AGENT_RUNNING rung={kind} cmd={argv[0]}", flush=True)
     env = {
         **os.environ,
-        "ANTHROPIC_MODEL": os.environ.get("FACTORY_AGENT_MODEL", "anthropic/claude-3-haiku"),
+        "ANTHROPIC_MODEL": os.environ.get("FACTORY_AGENT_MODEL") or os.environ.get("ANTHROPIC_MODEL") or "openrouter/free",
     }
     try:
         proc = subprocess.run(
