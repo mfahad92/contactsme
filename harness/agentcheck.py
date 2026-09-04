@@ -38,6 +38,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shlex
 import subprocess
 import sys
@@ -238,9 +239,24 @@ def run_rung(kind: str, config: dict, app, only: str = "") -> tuple[int, int, li
         )
 
     try:
-        data = json.loads(result_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as e:
-        raise AgentCheckFailed(f"the result file is not readable JSON: {e}") from None
+        raw_text = result_path.read_text(encoding="utf-8").strip()
+    except OSError as e:
+        raise AgentCheckFailed(f"could not read result file: {e}") from None
+
+    if raw_text.startswith("```"):
+        raw_text = re.sub(r"^```[a-zA-Z]*\n?", "", raw_text)
+        raw_text = re.sub(r"\n?```$", "", raw_text).strip()
+
+    try:
+        data = json.loads(raw_text)
+    except json.JSONDecodeError as e:
+        if raw_text.startswith("{") and not raw_text.endswith("}"):
+            try:
+                data = json.loads(raw_text + "\n}")
+            except json.JSONDecodeError:
+                raise AgentCheckFailed(f"the result file is not readable JSON: {e}") from None
+        else:
+            raise AgentCheckFailed(f"the result file is not readable JSON: {e}") from None
 
     # "I COULD NOT CHECK" IS A DIFFERENT ANSWER FROM "IT IS BROKEN", and the log has
     # to say which. Measured here: an agent whose shell was locked down could not
