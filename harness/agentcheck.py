@@ -210,10 +210,14 @@ def run_rung(kind: str, config: dict, app, only: str = "") -> tuple[int, int, li
     result_path.parent.mkdir(parents=True, exist_ok=True)
 
     print(f"AGENT_RUNNING rung={kind} cmd={argv[0]}", flush=True)
+    env = {
+        **os.environ,
+        "ANTHROPIC_MODEL": os.environ.get("FACTORY_AGENT_MODEL", "anthropic/claude-3-haiku"),
+    }
     try:
         proc = subprocess.run(
             argv, input=prompt, capture_output=True, text=True, encoding="utf-8",
-            errors="replace", timeout=timeout, cwd=str(ROOT),
+            errors="replace", timeout=timeout, cwd=str(ROOT), env=env,
         )
     except FileNotFoundError:
         raise AgentCheckFailed(
