@@ -85,7 +85,7 @@ class Limits:
     consecutive_failures: int = field(default_factory=lambda: _int("FACTORY_WATCH_FAILS", 5))
     dispatches_without_progress: int = field(
         default_factory=lambda: _int("FACTORY_WATCH_NOPROG", 8))
-    spend_cap_usd: float = field(default_factory=lambda: _float("FACTORY_WATCH_SPEND", 25.0))
+    spend_cap_usd: float = field(default_factory=lambda: _float("FACTORY_WATCH_SPEND", 100.0))
     spend_without_progress_usd: float = field(
         default_factory=lambda: _float("FACTORY_WATCH_SPEND_NOPROG", 8.0))
 
